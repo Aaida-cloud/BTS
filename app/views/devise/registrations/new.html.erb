@@ -9,10 +9,13 @@
       <%= f.text_field :name, class: "form-control", autofocus: true, placeholder: "Enter your name" %>
     </div>
 
+<<<<<<< Updated upstream
     <div class="mb-3">
       <%= f.label :user_type, class: "form-label" %>
       <%= f.select :user_type, User.user_types.keys.map { |type| [type.titleize, type] }, {}, class: "form-select" %>
     </div>
+=======
+>>>>>>> Stashed changes
 
     <div class="mb-3">
       <%= f.label :email, class: "form-label" %>

@@ -15,6 +15,7 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+<<<<<<< Updated upstream
   </head>
 
   <body>
@@ -23,5 +24,95 @@
 
 
     <%= yield %>
+=======
+
+    <style>
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+      body {
+        margin-top: 70px; /* Adjust this value if needed */
+      }
+      .navbar-custom {
+        background-color: #5f6368; /* Soft grey for navbar background */
+        border-bottom: 2px solid #4a4a4a; /* Slightly darker grey border */
+      }
+      .navbar-custom .navbar-brand,
+      .navbar-custom .navbar-text,
+      .navbar-custom .dropdown-item {
+        color: #ffffff;
+      }
+      .navbar-custom .navbar-brand:hover,
+      .navbar-custom .navbar-text:hover {
+        color: #e0e0e0; /* Lighter grey text on hover */
+      }
+      .dropdown-menu {
+        background-color: #fafafa; /* Light grey background for dropdown */
+        border: 1px solid #ddd; /* Light border */
+      }
+      .dropdown-menu .dropdown-item {
+        color: #5f6368; /* Darker grey text */
+      }
+      .dropdown-menu .dropdown-item:hover {
+        background-color: #e0e0e0; /* Light grey hover effect */
+        color: #333333; /* Darker text on hover */
+      }
+      .navbar-light .navbar-toggler-icon {
+        background-color: #ffffff;
+      }
+    </style>
+  </head>
+
+  <body>
+  <% flash.each do |type, message| %>
+    <div class="alert alert-<%= type %> fade show" role="alert">
+      <%= message %>
+    </div>
+  <% end %>
+
+  <!-- Navbar inside a container with margin from parent sides -->
+  <nav class="navbar navbar-expand-lg navbar-light navbar-custom shadow-sm">
+    <div class="container">
+      <a class="navbar-brand ml-3" href="/">
+        <%= image_tag "bug.png", size: "30x30", class: "d-inline-block align-top", alt: "" %> Bug Tracking System
+      </a>
+
+      <!-- Navbar Toggler (for mobile view) -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navbar Links -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <% if current_user %>
+            <li class="nav-item dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Profile
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                <li><a class="dropdown-item"><strong>Email:</strong> <%= current_user.email %></a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "dropdown-item" %></li>
+              </ul>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to "Signup", new_user_registration_path, class: "nav-link text-dark" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Login", new_user_session_path, class: "nav-link text-dark" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <%= yield %>
+>>>>>>> Stashed changes
   </body>
 </html>
