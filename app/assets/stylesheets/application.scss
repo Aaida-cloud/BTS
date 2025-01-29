@@ -14,3 +14,21 @@
  *= require_self
  */
 @import "bootstrap";
+<<<<<<< Updated upstream
+=======
+
+.flash-message {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1050;
+  animation: fadeOut 3s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+>>>>>>> Stashed changes
