@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< Updated upstream
-ActiveRecord::Schema[7.2].define(version: 2025_01_28_164411) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_30_065747) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,13 +23,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_28_164411) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.integer "user_type"
-<<<<<<< Updated upstream
-=======
-    t.boolean "admin"
-    t.boolean "disabled"
+    t.integer "user_type", default: 3
     t.boolean "enabled", default: true
->>>>>>> Stashed changes
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

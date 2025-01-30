@@ -1,9 +1,5 @@
 class ApplicationController < ActionController::Base
-<<<<<<< Updated upstream
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
-=======
-  before_action :authenticate_user!  # Ensure users are logged in
+  before_action :authenticate_user!  
 
   def after_sign_in_path_for(resource)
     case resource.user_type
@@ -16,8 +12,7 @@ class ApplicationController < ActionController::Base
     when "qa"
       qa_dashboard_path
     else
-      root_path  # Default
+      root_path
     end
   end
->>>>>>> Stashed changes
 end

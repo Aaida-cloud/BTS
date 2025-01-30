@@ -21,6 +21,7 @@ gem "jbuilder"
 gem "bootstrap"
 gem "sassc-rails"
 gem "devise"
+gem "pg", "~> 1.5"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -59,4 +60,3 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "pg", "~> 1.5"
