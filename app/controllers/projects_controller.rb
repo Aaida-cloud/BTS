@@ -44,11 +44,24 @@ class ProjectsController < ApplicationController
 
     unless @project.users.include?(@user)
       @project.users << @user
-      redirect_to project_path, notice: "#{@user.name} has been added to the project."
+      redirect_to projects_path, notice: "#{@user.name} has been added to the project."
     else
-      redirect_to project_path, alert: "#{@user.name} is already assigned to this project."
+      redirect_to projects_path, alert: "#{@user.name} is already assigned to this project."
     end
   end
+
+  def remove_user
+  @project = Project.find(params[:id])
+  @user = User.find(params[:user_id])
+
+  if @project.users.include?(@user)
+    @project.users.delete(@user)
+    redirect_to projects_path, notice: "#{@user.name} has been removed from the project."
+  else
+    redirect_to projects_path, alert: "#{@user.name} is not assigned to this project."
+  end
+  end
+
 
   private
 

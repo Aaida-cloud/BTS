@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :bugs, only: [:new, :create, :index, :show, :edit, :update, :destroy]
     member do
       post :assign_users
+      post :remove_user
     end
   end
 
