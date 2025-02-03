@@ -22,6 +22,8 @@ gem "bootstrap"
 gem "sassc-rails"
 gem "devise"
 gem "pg", "~> 1.5"
+gem 'pundit'
+gem 'byebug'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"

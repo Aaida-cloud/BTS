@@ -1,0 +1,28 @@
+<div class="container mt-5">
+  <h2 class="text-center text-primary">Your Projects</h2>
+
+  <div class="d-flex justify-content-end mb-3">
+    <%= link_to 'New Project', new_project_path, class: "btn btn-outline-primary" %>
+  </div>
+
+  <div class="row">
+    <% @projects.each do |project| %>
+      <div class="col-md-4">
+        <div class="card shadow-sm mb-4 border-0">
+          <div class="card-body">
+            <h5 class="card-title text-dark"><%= project.name %></h5>
+            <p class="text-muted"><%= project.description.truncate(100) %></p>
+            <p class="small text-secondary">Number of Bugs: <%= project.bugs.count %></p>
+            <p class="small text-secondary">Deadline: <%= project.deadline %></p>
+
+            <div class="d-flex justify-content-between">
+              <%= link_to 'View Bugs', project_path(project), class: "btn btn-outline-primary btn-sm" %>
+              <%= link_to 'Edit', edit_project_path(project), class: "btn btn-outline-primary btn-sm" %>
+              <%= link_to 'Delete', project_path(project), data: { turbo_method: :delete,turbo_confirm: "Are you sure?" }, class: "btn btn-outline-danger btn-sm" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

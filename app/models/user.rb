@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :projects, foreign_key: "manager_id"
+
   enum user_type: {developer:0 , manager:1 , qa:2 , user:3 , admin:4 }
 
   def active_for_authentication?

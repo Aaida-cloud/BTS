@@ -1,0 +1,19 @@
+<div class="container mt-5">
+  <h2 class="text-center text-danger mb-4"><%= @bug.title %></h2>
+  <p class="text-muted mb-4"><%= @bug.description %></p>
+
+  <p><strong>Type:</strong> <%= @bug.bug_type.capitalize %></p>
+  <p><strong>Status:</strong> <%= @bug.status.capitalize %></p>
+  <p><strong>Deadline:</strong> <%= @bug.deadline %></p>
+
+  <% if @bug.screenshot.attached? %>
+    <div class="my-4">
+      <strong>Screenshot:</strong>
+      <%= image_tag @bug.screenshot, class: "img-fluid rounded shadow-sm" %>
+    </div>
+  <% end %>
+
+  <div class="mt-4 d-flex justify-content-between">
+    <%= link_to 'Back', project_path(@bug.project), class: "btn btn-outline-secondary" %>
+  </div>
+</div>

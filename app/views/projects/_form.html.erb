@@ -1,0 +1,30 @@
+<%= form_with(model: @project, local: true) do |form| %>
+  <% if @project.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% @project.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group mb-3">
+    <%= form.label :name, class: "text-primary" %>
+    <%= form.text_field :name, class: "form-control border-primary shadow-sm" %>
+  </div>
+
+  <div class="form-group mb-3">
+    <%= form.label :description, class: "text-primary" %>
+    <%= form.text_area :description, class: "form-control border-primary shadow-sm" %>
+  </div>
+
+  <div class="form-group mb-3">
+    <%= form.label :deadline, class: "text-primary" %>
+    <%= form.date_select :deadline, class: "form-control border-primary shadow-sm" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.submit "Save Project", class: "btn btn-primary btn-block shadow-sm" %>
+  </div>
+<% end %>
