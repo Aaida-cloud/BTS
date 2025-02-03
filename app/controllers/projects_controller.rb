@@ -1,8 +1,7 @@
 class ProjectsController < ApplicationController
-
   before_action :authenticate_user!
   before_action :authorize_manager, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :assign_users]
 
   def index
     @projects = current_user.projects
@@ -38,6 +37,17 @@ class ProjectsController < ApplicationController
   def destroy
     @project.destroy
     redirect_to projects_path, notice: 'Project deleted successfully.'
+  end
+
+  def assign_users
+    @user = User.find(params[:user_id])
+
+    unless @project.users.include?(@user)
+      @project.users << @user
+      redirect_to project_path, notice: "#{@user.name} has been added to the project."
+    else
+      redirect_to project_path, alert: "#{@user.name} is already assigned to this project."
+    end
   end
 
   private
