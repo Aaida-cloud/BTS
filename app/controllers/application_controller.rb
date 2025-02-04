@@ -10,9 +10,9 @@ class ApplicationController < ActionController::Base
     when "manager"
       projects_path
     when "developer"
-      developer_dashboard_path
+      developer_projects_path
     when "qa"
-      qa_dashboard_path
+      qa_projects_path
     else
       root_path
     end

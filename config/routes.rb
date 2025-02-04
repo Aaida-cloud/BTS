@@ -14,6 +14,22 @@ Rails.application.routes.draw do
   end
 
 
+  namespace :developer do
+    resources :projects, only: [:index, :show] do
+      member do
+        post 'assign_bug_to_me/:bug_id', to: 'projects#assign_bug_to_me', as: 'assign_bug_to_me'
+        delete 'unassign_bug/:bug_id', to: 'projects#unassign_bug', as: 'unassign_bug'
+      end
+    end
+  end
+
+
+  namespace :qa do
+    resources :projects, only: [:index, :show] do
+      resources :bugs, only: [:new, :create, :show]
+    end
+  end
+
   get "home/index"
   root to: "home#index"
 

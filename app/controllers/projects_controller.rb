@@ -4,7 +4,13 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy, :assign_users]
 
   def index
+  if current_user.manager?
     @projects = current_user.created_projects
+  elsif current_user.developer?
+    @projects = current_user.projects
+  elsif current_user.qa?
+    @projects = Project.all  # or any specific logic for QA users to get projects
+  end
   end
 
   def new
@@ -66,7 +72,11 @@ class ProjectsController < ApplicationController
   private
 
   def set_project
-    @project = current_user.created_projects.find(params[:id])
+    if current_user.user_type == 'qa'
+     @project = Project.find(params[:id])
+    else
+      @project = current_user.created_projects.find(params[:id])
+    end
   rescue ActiveRecord::RecordNotFound
     redirect_to projects_path, alert: "Project not found or access denied."
   end
