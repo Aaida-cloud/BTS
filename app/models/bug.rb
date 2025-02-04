@@ -1,6 +1,7 @@
 class Bug < ApplicationRecord
   belongs_to :project
-  # belongs_to :manager, class_name: 'User'
+  # TODO
+  # belongs_to :user
 
   has_one_attached :screenshot
 

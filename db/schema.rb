@@ -54,16 +54,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_091244) do
     t.index ["project_id"], name: "index_bugs_on_project_id"
   end
 
-  create_table "project_memberships", force: :cascade do |t|
-    t.bigint "project_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_project_memberships_on_project_id"
-    t.index ["user_id", "project_id"], name: "index_project_memberships_on_user_id_and_project_id", unique: true
-    t.index ["user_id"], name: "index_project_memberships_on_user_id"
-  end
-
   create_table "project_users", force: :cascade do |t|
     t.bigint "project_id", null: false
     t.bigint "user_id", null: false
@@ -80,7 +70,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_091244) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "manager_id", null: false
-    t.string "user_ids", default: [], array: true
     t.index ["manager_id"], name: "index_projects_on_manager_id"
   end
 
@@ -102,8 +91,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_03_091244) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bugs", "projects"
-  add_foreign_key "project_memberships", "projects"
-  add_foreign_key "project_memberships", "users"
   add_foreign_key "project_users", "projects"
   add_foreign_key "project_users", "users"
   add_foreign_key "projects", "users", column: "manager_id"
