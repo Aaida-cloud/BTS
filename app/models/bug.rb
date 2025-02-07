@@ -1,7 +1,7 @@
 class Bug < ApplicationRecord
   belongs_to :project
   belongs_to :developer, class_name: 'User', optional: true
-  belongs_to :qa, class_name: 'User' ,foreign_key: 'qa_id'
+  belongs_to :qa, class_name: 'User'
 
   # TODO
   # belongs_to :user

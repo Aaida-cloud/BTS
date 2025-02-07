@@ -2,7 +2,7 @@ module Developer
   class ProjectsController < ApplicationController
     before_action :authenticate_user!
     before_action :authorize_developer
-    before_action :set_project, only: [:show, :bug_details]
+    before_action :set_project, only: [:show, :bug_details, :update_bug_status]
     before_action :set_bug, only: [:update_bug_status, :bug_details]
 
     def index
@@ -14,15 +14,14 @@ module Developer
     end
 
     def update_bug_status
-    @bug = Bug.find(params[:bug_id])
-    @project = @bug.project
-    if current_user.developer? && @bug.update(status: params[:status])
-      flash[:success] = "Bug status updated successfully!"
-    else
-      flash[:error] = "Oops! Something went wrong or you don't have permission."
-    end
+      @bug = Bug.find(params[:bug_id])
+      if current_user.developer? && @bug.update(status: params[:status], developer_id: current_user.id)
+        flash[:success] = "Bug status updated successfully!"
+      else
+        flash[:error] = "Oops! Something went wrong or you don't have permission."
+      end
 
-    redirect_to developer_project_path(@project)
+      redirect_to developer_project_path(@project)
     end
 
     def bug_details

@@ -8,6 +8,7 @@
         <th class="col-2">Type</th>
         <th class="col-2">Status</th>
         <th class="col-3">Action</th>
+        <th class="col-3">Developer</th>
       </tr>
     </thead>
     <tbody class="table-light">
@@ -18,7 +19,13 @@
           <td><%= bug.status.capitalize %></td>
           <td>
             <%= link_to 'View', project_bug_path(bug.project, bug), class: "btn btn-outline-primary btn-sm me-1" %>
-
+          </td>
+          <td>
+            <% if bug.status == "started" || bug.status == "resolved" %>
+              <%= bug.developer ? bug.developer.name.capitalize : "Not Assigned" %>
+            <% else %>
+              Not Assigned
+            <% end %>
           </td>
         </tr>
       <% end %>

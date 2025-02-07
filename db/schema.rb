@@ -52,7 +52,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_04_112921) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "qa_id"
+    t.bigint "developer_id"
+    t.index ["developer_id"], name: "index_bugs_on_developer_id"
     t.index ["project_id"], name: "index_bugs_on_project_id"
+    t.index ["qa_id"], name: "index_bugs_on_qa_id"
   end
 
   create_table "project_users", force: :cascade do |t|
@@ -92,6 +95,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_04_112921) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bugs", "projects"
+  add_foreign_key "bugs", "users", column: "developer_id"
+  add_foreign_key "bugs", "users", column: "qa_id"
   add_foreign_key "project_users", "projects"
   add_foreign_key "project_users", "users"
   add_foreign_key "projects", "users", column: "manager_id"
