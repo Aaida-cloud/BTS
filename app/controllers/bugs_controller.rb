@@ -76,7 +76,6 @@ class BugsController < ApplicationController
   private
 
   def set_project
-    byebug
     @project = Project.find(params[:project_id])
     # unless current_user.projects.include?(@project)
     #   redirect_to projects_path, alert: 'You do not have access to this project.'

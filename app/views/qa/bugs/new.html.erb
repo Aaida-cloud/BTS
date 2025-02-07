@@ -3,7 +3,7 @@
 
   <div class="card shadow-lg border-0">
     <div class="card-body">
-      <%= form_with(model: [@project, @bug], local: true) do |f| %>
+      <%= form_with(model: [:qa, @project, @bug], local: true) do |f| %>
         <div class="form-group">
           <%= f.label :title, "Bug Title" %>
           <%= f.text_field :title, class: "form-control" %>

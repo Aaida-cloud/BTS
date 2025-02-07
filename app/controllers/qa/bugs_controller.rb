@@ -14,7 +14,7 @@ module Qa
       @bug.qa_id = current_user.id
       if @bug.save
         # Redirect to the bug's show page in the QA namespace
-        redirect_to qa_project_bug_path(@project, @bug), notice: 'Bug was successfully reported.'
+        redirect_to qa_project_path(@project), notice: 'Bug was successfully reported.'
       else
         # If there are validation errors, re-render the new bug form
         render :new

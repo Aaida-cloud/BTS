@@ -11,7 +11,13 @@
         <ul class="list-group">
           <% @bugs.each do |bug| %>
             <li class="list-group-item">
-              <strong><%= bug.title %></strong> - <%= bug.status.capitalize %>
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <strong><%= bug.title %></strong> - <%= bug.status.capitalize %>
+                  <!-- Bug Description -->
+                  <p class="text-muted mt-2"><%= bug.description %></p>
+                </div>
+              </div>
             </li>
           <% end %>
         </ul>
@@ -20,7 +26,7 @@
       <% end %>
 
       <div class="d-flex justify-content-center mt-4">
-         <%= link_to 'Report Bug', new_qa_project_bug_path(@project), class: "btn btn-outline-primary" %>
+        <%= link_to 'Report Bug', new_qa_project_bug_path(@project), class: "btn btn-outline-primary" %>
       </div>
     </div>
   </div>

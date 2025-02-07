@@ -15,13 +15,14 @@ Rails.application.routes.draw do
 
 
   namespace :developer do
-    resources :projects, only: [:index, :show] do
-      member do
-        post 'assign_bug_to_me/:bug_id', to: 'projects#assign_bug_to_me', as: 'assign_bug_to_me'
-        delete 'unassign_bug/:bug_id', to: 'projects#unassign_bug', as: 'unassign_bug'
-      end
+  resources :projects, only: [:index, :show] do
+    member do
+      get :bug_details
+      patch :update_bug_status
     end
-  end
+ end
+ end
+
 
 
   namespace :qa do
