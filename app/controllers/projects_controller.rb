@@ -5,11 +5,11 @@ class ProjectsController < ApplicationController
 
   def index
   if current_user.manager?
-    @projects = current_user.created_projects
+    @projects = current_user.created_projects.all.page(params[:page]).per(5)
   elsif current_user.developer?
-    @projects = current_user.projects
+    @projects = current_user.projects.all.page(params[:page]).per(5)
   elsif current_user.qa?
-    @projects = Project.all  # or any specific logic for QA users to get projects
+    @projects = Project.page(params[:page]).per(5)
   end
   end
 
@@ -28,6 +28,7 @@ class ProjectsController < ApplicationController
 
   def show
     @bugs = @project.bugs
+
   end
 
   def edit; end

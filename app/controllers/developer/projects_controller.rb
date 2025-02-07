@@ -11,6 +11,8 @@ module Developer
 
     def show
       @project = Project.find(params[:id])
+      @bugs = @project.bugs.page(params[:page]).per(5)
+
     end
 
     def update_bug_status
