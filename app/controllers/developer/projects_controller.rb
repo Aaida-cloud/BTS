@@ -6,13 +6,12 @@ module Developer
     before_action :set_bug, only: [:update_bug_status, :bug_details]
 
     def index
-      @projects = current_user.projects
+      @projects = current_user.projects.page(params[:page]).per(5)
     end
 
     def show
       @project = Project.find(params[:id])
       @bugs = @project.bugs.page(params[:page]).per(5)
-
     end
 
     def update_bug_status

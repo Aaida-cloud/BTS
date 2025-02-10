@@ -9,7 +9,7 @@
       <h4 class="mt-4">Assigned Bugs</h4>
       <% if @project.bugs.any? %>
         <ul class="list-group">
-          <% @project.bugs.each do |bug| %>
+          <% @bugs.each do |bug| %>
             <li class="list-group-item">
               <div class="d-flex justify-content-between">
                 <div>

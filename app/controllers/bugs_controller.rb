@@ -3,16 +3,14 @@ class BugsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :set_project, except: [:index]
-  before_action :set_bug, only: [:edit, :update, :destroy, :resolve, :assign]
-  before_action :authorize_bug, only: [:new, :create, :edit, :update, :destroy, :assign]
+  before_action :set_bug, only: [:edit, :update, :destroy]
+  before_action :authorize_bug, only: [:new, :create, :edit, :update, :destroy]
 
   def index
     if current_user.user_type == 'manager'
-      # Managers can see all bugs in their assigned projects
       @bugs = Bug.all
     elsif current_user.user_type == 'developer'
-      # Developers can see bugs assigned to them or unassigned bugs in projects they are a part of
-      @bugs = Bug.where("developer_id IS NULL OR developer_id = ?", current_user.id)
+    @bugs = Bug.where(developer_id: current_user.id).includes(:project).order(created_at: :desc)
     end
   end
 
@@ -48,14 +46,14 @@ class BugsController < ApplicationController
     end
   end
 
-  def resolve
-    if @bug.developer == current_user || current_user.user_type == 'manager'
-      @bug.update(status: :resolved)
-      redirect_to project_bug_path(@project, @bug), notice: 'Bug marked as resolved.'
-    else
-      redirect_to project_bug_path(@project, @bug), alert: 'You do not have permission to resolve this bug.'
-    end
-  end
+  # def resolve
+  #   if @bug.developer == current_user || current_user.user_type == 'manager'
+  #     @bug.update(status: :resolved)
+  #     redirect_to project_bug_path(@project, @bug), notice: 'Bug marked as resolved.'
+  #   else
+  #     redirect_to project_bug_path(@project, @bug), alert: 'You do not have permission to resolve this bug.'
+  #   end
+  # end
 
   def destroy
     authorize @bug, :destroy?
@@ -63,15 +61,15 @@ class BugsController < ApplicationController
     redirect_to project_path(@bug.project), notice: 'Bug deleted successfully.'
   end
 
-  def assign
-    # Developers can assign unassigned bugs to themselves
-    if @bug.developer.nil? && current_user.user_type == 'developer'
-      @bug.update(developer: current_user)
-      redirect_to project_bug_path(@project, @bug), notice: 'Bug assigned to you.'
-    else
-      redirect_to project_bug_path(@project, @bug), alert: 'Bug is already assigned to another developer.'
-    end
-  end
+  # def assign
+  #   # Developers can assign unassigned bugs to themselves
+  #   if @bug.developer.nil? && current_user.user_type == 'developer'
+  #     @bug.update(developer: current_user)
+  #     redirect_to project_bug_path(@project, @bug), notice: 'Bug assigned to you.'
+  #   else
+  #     redirect_to project_bug_path(@project, @bug), alert: 'Bug is already assigned to another developer.'
+  #   end
+  # end
 
   private
 
@@ -100,13 +98,13 @@ class BugsController < ApplicationController
     when 'manager'
       # Managers can manage bugs in all assigned projects
       authorize @bug, :manage?
-    when 'developer'
-      # Developers can assign or update their assigned bugs
-      if action_name == 'assign'
-        authorize @bug, :assign?
-      else
-        authorize @bug, :update?
-      end
+    # when 'developer'
+    #   # Developers can assign or update their assigned bugs
+    #   if action_name == 'assign'
+    #     authorize @bug, :assign?
+    #   else
+    #     authorize @bug, :update?
+    #   end
     end
   end
 end

@@ -1,4 +1,6 @@
 class Bug < ApplicationRecord
+  require 'kaminari'
+  paginates_per 5
 
   belongs_to :project
   belongs_to :developer, class_name: 'User', optional: true

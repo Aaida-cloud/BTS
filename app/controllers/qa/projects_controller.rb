@@ -5,11 +5,11 @@ module Qa
     before_action :set_project, only: [:show]
 
     def index
-      @projects = Project.all
+      @projects = Project.all.page(params[:page]).per(5)
     end
 
     def show
-      @bugs = @project.bugs
+      @bugs = @project.bugs.page(params[:page]).per(5)
     end
 
     private
