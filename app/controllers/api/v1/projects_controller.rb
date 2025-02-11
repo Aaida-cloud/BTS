@@ -71,8 +71,7 @@ module Api
       def project_params
         params.require(:project).permit(:name, :description, :deadline)
       end
-
-
+      
       def authorize_manager
         render json: { error: "Access denied. Only managers can access this." }, status: :forbidden unless current_user.manager?
       end

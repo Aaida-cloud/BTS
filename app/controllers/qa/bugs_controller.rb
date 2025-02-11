@@ -2,7 +2,7 @@ module Qa
   class BugsController < ApplicationController
     before_action :authenticate_user!
     before_action :authorize_qa
-    before_action :set_project, only: [:new, :create]  # Add :create here as well
+    before_action :set_project, only: [:new, :create]
 
     def new
       @bug = @project.bugs.new
@@ -13,16 +13,13 @@ module Qa
       @bug = @project.bugs.build(bug_params)
       @bug.qa_id = current_user.id
       if @bug.save
-        # Redirect to the bug's show page in the QA namespace
         redirect_to qa_project_path(@project), notice: 'Bug was successfully reported.'
       else
-        # If there are validation errors, re-render the new bug form
         render :new
       end
     end
 
     def show
-      # Fetch the bug associated with the project
       @bug = @project.bugs.find_by(id: params[:id])  # Using find_by for safety
     end
 

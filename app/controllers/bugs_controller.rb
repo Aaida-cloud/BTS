@@ -1,6 +1,5 @@
 class BugsController < ApplicationController
   include Pundit
-
   before_action :authenticate_user!
   before_action :set_project, except: [:index]
   before_action :set_bug, only: [:edit, :update, :destroy]
@@ -46,38 +45,16 @@ class BugsController < ApplicationController
     end
   end
 
-  # def resolve
-  #   if @bug.developer == current_user || current_user.user_type == 'manager'
-  #     @bug.update(status: :resolved)
-  #     redirect_to project_bug_path(@project, @bug), notice: 'Bug marked as resolved.'
-  #   else
-  #     redirect_to project_bug_path(@project, @bug), alert: 'You do not have permission to resolve this bug.'
-  #   end
-  # end
-
   def destroy
     authorize @bug, :destroy?
     @bug.destroy
     redirect_to project_path(@bug.project), notice: 'Bug deleted successfully.'
   end
 
-  # def assign
-  #   # Developers can assign unassigned bugs to themselves
-  #   if @bug.developer.nil? && current_user.user_type == 'developer'
-  #     @bug.update(developer: current_user)
-  #     redirect_to project_bug_path(@project, @bug), notice: 'Bug assigned to you.'
-  #   else
-  #     redirect_to project_bug_path(@project, @bug), alert: 'Bug is already assigned to another developer.'
-  #   end
-  # end
-
   private
 
   def set_project
     @project = Project.find(params[:project_id])
-    # unless current_user.projects.include?(@project)
-    #   redirect_to projects_path, alert: 'You do not have access to this project.'
-    # end
   end
 
   def set_bug
@@ -94,17 +71,8 @@ class BugsController < ApplicationController
   end
 
   def authorize_bug
-    case current_user.user_type
-    when 'manager'
-      # Managers can manage bugs in all assigned projects
-      authorize @bug, :manage?
-    # when 'developer'
-    #   # Developers can assign or update their assigned bugs
-    #   if action_name == 'assign'
-    #     authorize @bug, :assign?
-    #   else
-    #     authorize @bug, :update?
-    #   end
-    end
+
+    authorize @bug, :manage?
+    
   end
 end

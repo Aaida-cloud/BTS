@@ -1,6 +1,6 @@
 class Api::V1::AdminController < ApplicationController
   before_action :authorize_admin
-
+  
   def index
     users = User.where.not(user_type: :admin)
     render json: { users: users }, status: :ok

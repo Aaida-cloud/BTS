@@ -8,7 +8,6 @@
           <div class="card-body">
             <h5 class="card-title text-dark"><%= project.name %></h5>
             <p class="text-muted"><%= project.description.truncate(100) %></p>
-
             <div class="d-flex justify-content-center mt-3">
               <%= link_to 'View Project', developer_project_path(project), class: "btn btn-outline-primary btn-sm" %>
             </div>

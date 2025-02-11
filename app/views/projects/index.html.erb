@@ -21,7 +21,6 @@
               <%= link_to 'Delete', project_path(project), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-outline-danger btn-sm" %>
             </div>
 
-
             <div class="mt-4">
               <h5 class="text-center text-primary">Assign Team Members</h5>
               <%= form_with(url: assign_users_project_path(project), method: :post, class: "d-flex justify-content-center") do %>
@@ -29,7 +28,6 @@
                 <%= submit_tag "Assign", class: "btn btn-outline-success ms-3 btn-sm" %>
               <% end %>
             </div>
-
 
             <div class="mt-4">
               <h5 class="text-center text-primary">Team Members</h5>

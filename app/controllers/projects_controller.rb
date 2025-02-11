@@ -4,13 +4,13 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy, :assign_users]
 
   def index
-  if current_user.manager?
-    @projects = current_user.created_projects.all.page(params[:page]).per(5)
-  elsif current_user.developer?
-    @projects = current_user.projects.all.page(params[:page]).per(5)
-  elsif current_user.qa?
-    @projects = Project.page(params[:page]).per(5)
-  end
+    if current_user.manager?
+      @projects = current_user.created_projects.all.page(params[:page]).per(5)
+    elsif current_user.developer?
+      @projects = current_user.projects.all.page(params[:page]).per(5)
+    elsif current_user.qa?
+      @projects = Project.page(params[:page]).per(5)
+    end
   end
 
   def new
@@ -28,7 +28,6 @@ class ProjectsController < ApplicationController
 
   def show
     @bugs = @project.bugs
-
   end
 
   def edit; end
@@ -58,23 +57,22 @@ class ProjectsController < ApplicationController
   end
 
   def remove_user
-  @project = Project.find(params[:id])
-  @user = User.find(params[:user_id])
+    @project = Project.find(params[:id])
+    @user = User.find(params[:user_id])
 
-  if @project.users.include?(@user)
-    @project.users.delete(@user)
-    redirect_to projects_path, notice: "#{@user.name} has been removed from the project."
-  else
-    redirect_to projects_path, alert: "#{@user.name} is not assigned to this project."
+    if @project.users.include?(@user)
+      @project.users.delete(@user)
+      redirect_to projects_path, notice: "#{@user.name} has been removed from the project."
+    else
+      redirect_to projects_path, alert: "#{@user.name} is not assigned to this project."
+    end
   end
-  end
-
 
   private
 
   def set_project
     if current_user.user_type == 'qa'
-     @project = Project.find(params[:id])
+      @project = Project.find(params[:id])
     else
       @project = current_user.created_projects.find(params[:id])
     end
