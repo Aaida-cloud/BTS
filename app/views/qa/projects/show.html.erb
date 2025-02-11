@@ -1,0 +1,37 @@
+<div class="container mt-5">
+  <h2 class="text-center text-primary mb-4"><%= @project.name %></h2>
+
+  <div class="card shadow-lg border-0">
+    <div class="card-body">
+      <h4 class="card-title">Description</h4>
+      <p class="card-text"><%= @project.description %></p>
+
+      <h4 class="mt-4">Assigned Bugs</h4>
+      <% if @bugs.any? %>
+        <ul class="list-group">
+          <% @bugs.each do |bug| %>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <strong><%= bug.title %></strong> - <%= bug.status.capitalize %>
+                  <!-- Bug Description -->
+                  <p class="text-muted mt-2"><%= bug.description %></p>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No bugs reported for this project yet.</p>
+      <% end %>
+
+      <div class="d-flex justify-content-center mt-4">
+        <%= link_to 'Report Bug', new_qa_project_bug_path(@project), class: "btn btn-outline-primary" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 d-flex justify-content-start">
+    <%= link_to 'Back to Projects', qa_projects_path, class: "btn btn-outline-secondary btn-sm" %>
+  </div>
+</div>

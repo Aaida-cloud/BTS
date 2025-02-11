@@ -18,7 +18,7 @@
             <td class="text-center"><%= user.email %></td>
             <td class="text-center">
               <%= form_with url: update_user_type_admin_user_path(user), method: :patch, local: true, class: "d-flex gap-2 align-items-center justify-content-center" do |f| %>
-                <%= f.select :user_type, User.user_types.keys, { selected: user.user_type }, class: "form-select w-auto" %>
+                <%= f.select :user_type, User.user_types.except("admin").keys, { selected: user.user_type }, class: "form-select w-auto" %>
                 <%= f.submit "Update", class: "btn btn-primary btn-sm" %>
               <% end %>
             </td>

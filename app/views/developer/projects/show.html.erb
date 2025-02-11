@@ -1,0 +1,43 @@
+<div class="container mt-5">
+  <h2 class="text-center text-primary mb-4"><%= @project.name %></h2>
+
+  <div class="card shadow-lg border-0">
+    <div class="card-body">
+      <h4 class="card-title">Description</h4>
+      <p class="card-text"><%= @project.description %></p>
+
+      <h4 class="mt-4">Assigned Bugs</h4>
+      <% if @project.bugs.any? %>
+        <ul class="list-group">
+          <% @project.bugs.each do |bug| %>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <strong><%= bug.title %></strong> -
+                  <span class="badge p-2
+                              <%= 'bg-warning-subtle text-dark' if bug.status == 'new' %>
+                              <%= 'bg-primary-subtle text-dark' if bug.status == 'started' %>
+                              <%= 'bg-success-subtle text-dark' if bug.status == 'resolved' %>
+
+                              font-weight-bold rounded-pill">
+                    <%= bug.status.capitalize %>
+                  </span>
+                  <p class="text-muted mt-2"><%#= bug.description %></p>
+                  <div>
+                    <%= link_to 'View Bug', bug_details_developer_project_path(id: @project.id, bug_id: bug.id), class: "btn btn-outline-secondary btn-sm" %>
+                  </div>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No bugs assigned to this project yet.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mt-4 d-flex justify-content-start">
+    <%= link_to 'Back to Projects', developer_projects_path, class: "btn btn-outline-secondary btn-sm" %>
+  </div>
+</div>
