@@ -6,10 +6,10 @@ class BugsController < ApplicationController
   before_action :authorize_bug, only: [:new, :create, :edit, :update, :destroy]
 
   def index
-    if current_user.user_type == 'manager'
-      @bugs = Bug.all
+    if current_user.manager?
+      @bugs = Bug.all.includes(:developer)
     elsif current_user.user_type == 'developer'
-    @bugs = Bug.where(developer_id: current_user.id).includes(:project).order(created_at: :desc)
+      @bugs = Bug.where(developer_id: current_user.id).includes(:project).order(created_at: :desc)
     end
   end
 
@@ -73,6 +73,6 @@ class BugsController < ApplicationController
   def authorize_bug
 
     authorize @bug, :manage?
-    
+
   end
 end

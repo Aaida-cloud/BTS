@@ -4,13 +4,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy, :assign_users]
 
   def index
-    if current_user.manager?
-      @projects = current_user.created_projects.all.page(params[:page]).per(5)
-    elsif current_user.developer?
-      @projects = current_user.projects.all.page(params[:page]).per(5)
-    elsif current_user.qa?
-      @projects = Project.page(params[:page]).per(5)
-    end
+    @projects = current_user.created_projects.includes(:bugs).page(params[:page]).per(5)
   end
 
   def new
