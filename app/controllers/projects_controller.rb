@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authorize_manager, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :assign_users]
+  before_action :authorize_manager
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :assign_users ,:remove_user]
 
   def index
     @projects = current_user.created_projects.includes(:bugs).page(params[:page]).per(5)
@@ -41,7 +41,6 @@ class ProjectsController < ApplicationController
 
   def assign_users
     @user = User.find(params[:user_id])
-
     unless @project.users.include?(@user)
       @project.users << @user
       redirect_to projects_path, notice: "#{@user.name} has been added to the project."
@@ -51,9 +50,7 @@ class ProjectsController < ApplicationController
   end
 
   def remove_user
-    @project = Project.find(params[:id])
     @user = User.find(params[:user_id])
-
     if @project.users.include?(@user)
       @project.users.delete(@user)
       redirect_to projects_path, notice: "#{@user.name} has been removed from the project."
@@ -65,13 +62,7 @@ class ProjectsController < ApplicationController
   private
 
   def set_project
-    if current_user.user_type == 'qa'
-      @project = Project.find(params[:id])
-    else
-      @project = current_user.created_projects.find(params[:id])
-    end
-  rescue ActiveRecord::RecordNotFound
-    redirect_to projects_path, alert: "Project not found or access denied."
+    @project = current_user.created_projects.find(params[:id])
   end
 
   def project_params
@@ -80,7 +71,7 @@ class ProjectsController < ApplicationController
 
   def authorize_manager
     unless current_user.manager?
-      redirect_to root_path, alert: "Access denied. Only managers can access this page."
+      redirect_to root_path, alert: "Access denied."
     end
   end
 end

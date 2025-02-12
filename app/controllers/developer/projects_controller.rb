@@ -10,12 +10,10 @@ module Developer
     end
 
     def show
-      @project = Project.find(params[:id])
       @bugs = @project.bugs.page(params[:page]).per(5)
     end
 
     def update_bug_status
-      @bug = Bug.find(params[:bug_id])
       if current_user.developer? && @bug.update(status: params[:status], developer_id: current_user.id)
         flash[:success] = "Bug status updated successfully!"
       else
@@ -26,7 +24,6 @@ module Developer
     end
 
     def bug_details
-      @project = Project.find(params[:id])
       @bug = Bug.find(params[:bug_id])
     end
 
@@ -38,11 +35,10 @@ module Developer
 
     def set_project
       @project = Project.find_by(id: params[:id])
-      redirect_to developer_projects_path, alert: "Project not found." if @project.nil?
     end
 
     def authorize_developer
-      unless current_user.developer? || current_user.manager?
+      unless current_user.developer?
         redirect_to root_path, alert: "Access denied."
       end
     end
