@@ -1,19 +1,12 @@
 require 'jwt'
 class User < ApplicationRecord
+  include AuthenticationConcern
   has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
   has_many :created_projects, class_name: 'Project', foreign_key: "manager_id"
   has_many :bugs, foreign_key: :qa_id
 
   enum user_type: { developer: 0, manager: 1, qa: 2, user: 3, admin: 4 }
-
-  def active_for_authentication?
-    super && enabled?
-  end
-
-  def inactive_message
-    enabled? ? super : :account_disabled
-  end
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :jwt_authenticatable, jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
