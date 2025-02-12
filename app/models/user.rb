@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   enum user_type: { developer: 0, manager: 1, qa: 2, user: 3, admin: 4 }
 
-  scope :not_admin_and_manager, -> { where.not(user_type: ['manager', 'admin']) }
+  # scope :not_admin_and_manager, -> { where.not(user_type: ['manager', 'admin']) }
 
   def active_for_authentication?
     super && enabled?
