@@ -1,0 +1,38 @@
+<div class="container mt-5">
+  <h4 class="text-primary text-center mb-3">Bugs in this Project</h4>
+
+  <table class="table table-hover" style="background-color: #e0f7fa;">
+    <thead class="table-light">
+      <tr>
+        <th class="col-3">Title</th>
+        <th class="col-2">Type</th>
+        <th class="col-2">Status</th>
+        <th class="col-3">Action</th>
+        <th class="col-3">Developer</th>
+      </tr>
+    </thead>
+    <tbody class="table-light">
+      <% @bugs.each do |bug| %>
+        <tr>
+          <td><%= bug.title %></td>
+          <td><%= bug.bug_type.capitalize %></td>
+          <td><%= bug.status.capitalize %></td>
+          <td>
+            <%= link_to 'View', project_bug_path(bug.project, bug), class: "btn btn-outline-primary btn-sm me-1" %>
+          </td>
+          <td>
+            <% if bug.started? || bug.resolved?%>
+              <%= bug.developer ? bug.developer.name.capitalize : "Not Assigned" %>
+            <% else %>
+              Not Assigned
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-center mt-4">
+    <%= link_to 'Back', projects_path, class: "btn btn-outline-primary" %>
+  </div>
+</div>
