@@ -10,7 +10,7 @@ module Qa
     end
 
     def create
-      @bug = @project.bugs.build(bug_params)
+      @bug = @project.bugs.new(bug_params)
       @bug.qa_id = current_user.id
       if @bug.save
         redirect_to qa_project_path(@project), notice: 'Bug was successfully reported.'
@@ -20,7 +20,7 @@ module Qa
     end
 
     def show
-      @bug = @project.bugs.find_by(id: params[:id])  # Using find_by for safety
+      @bug = @project.bugs.find_by(id: params[:id])
     end
 
     private
@@ -30,10 +30,7 @@ module Qa
     end
 
     def bug_params
-      params.require(:bug).permit(:title, :description, :bug_type, :status, :deadline, :screenshot).merge(
-        bug_type: params[:bug][:bug_type].to_i,
-        status: params[:bug][:status].to_i
-      )
+      params.require(:bug).permit(:title, :description, :bug_type, :status, :deadline, :screenshot)
     end
 
     def authorize_qa

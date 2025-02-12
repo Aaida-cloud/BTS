@@ -16,12 +16,13 @@
 
         <div class="form-group mt-3">
           <%= f.label :bug_type %>
-          <%= f.select :bug_type, options_for_select([['Feature', 0], ['Bug', 1]]), {}, class: "form-control" %>
+          <%= f.select :bug_type, options_for_select([['Feature', 'feature'], ['Bug', 'bug']]), {prompt:"select a bug type"}, class: "form-control" %>
         </div>
 
         <div class="form-group mt-3">
           <%= f.label :status %>
-          <%= f.select :status, options_for_select([['New', 0], ['Started', 1], ['Resolved', 3]]), {}, class: "form-control" %>
+          <%= f.select :status, options_for_select([['New', 'new_bug'], ['Started', 'started'], ['Resolved', 'resolved']]), {prompt:"select a status type
+          "}, class: "form-control" %>
         </div>
 
         <div class="form-group mt-3">
