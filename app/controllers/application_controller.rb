@@ -1,16 +1,15 @@
 class ApplicationController < ActionController::Base
   include Pundit
   before_action :authenticate_user!
-  
+
   def after_sign_in_path_for(resource)
-    case resource.user_type
-    when "admin"
+    if resource.admin?
       admin_dashboard_path
-    when "manager"
+    elsif resource.manager?
       projects_path
-    when "developer"
+    elsif resource.developer?
       developer_projects_path
-    when "qa"
+    elsif resource.qa?
       qa_projects_path
     else
       root_path

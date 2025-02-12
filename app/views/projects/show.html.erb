@@ -21,7 +21,7 @@
             <%= link_to 'View', project_bug_path(bug.project, bug), class: "btn btn-outline-primary btn-sm me-1" %>
           </td>
           <td>
-            <% if bug.status == "started" || bug.status == "resolved" %>
+            <% if bug.started? || bug.resolved?%>
               <%= bug.developer ? bug.developer.name.capitalize : "Not Assigned" %>
             <% else %>
               Not Assigned
