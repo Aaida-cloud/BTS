@@ -37,8 +37,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get "admin/users", to: "admin#index"
-      patch "admin/users/:id/update_role", to: "admin#update_user_type"
-      patch "admin/users/:id/toggle_access", to: "admin#toggle_user"
+      patch "admin/update_user_type/:id", to: "admin#update_user_type", as: :update_user_type_admin_user
+      patch "admin/toggle_user/:id", to: "admin#toggle_user", as: :toggle_user_admin
     end
   end
 
