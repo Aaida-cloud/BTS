@@ -4,11 +4,11 @@ class BugPolicy < ApplicationPolicy
   end
 
   def update?
-    user.developer? && record.status == "new" && record.developer == user
+    user.developer? && record.new_bug? && record.developer?
   end
 
   def resolve?
-     user.developer? && record.status == "started" && record.developer == user
+     user.developer? && record.started? && record.developer == user
   end
 
   def destroy?

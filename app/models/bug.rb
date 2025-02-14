@@ -6,4 +6,7 @@ class Bug < ApplicationRecord
   has_one_attached :screenshot
   enum bug_type: { feature: 0, bug: 1 }
   enum status: { new_bug: 0, started: 1, resolved: 2 }
+  validates :title, presence: true
+  validates :description, presence: true
+  validates :deadline, :bug_type, :status, presence: true
 end
