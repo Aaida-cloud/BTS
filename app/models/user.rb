@@ -1,6 +1,9 @@
 require 'jwt'
 class User < ApplicationRecord
   include AuthenticationConcern
+  include Devise::JWT::RevocationStrategies::JTIMatcher
+  before_create :set_jti
+
   has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
   has_many :created_projects, class_name: 'Project', foreign_key: "manager_id"
@@ -17,9 +20,15 @@ class User < ApplicationRecord
 
   def generate_jwt
     JWT.encode(
-      { id: id, exp: 7.days.from_now.to_i },
+      { id: id, jti: jti, exp: 7.days.from_now.to_i },
       Rails.application.credentials.secret_key_base,
       'HS256'
     )
+  end
+
+  private
+
+  def set_jti
+    self.jti ||= SecureRandom.uuid
   end
 end

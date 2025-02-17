@@ -1,5 +1,7 @@
-class Api::V1::AuthController < Api::V1::ApplicationController
-  skip_before_action :authenticate_user!
+class Api::V1::AuthController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:create]
+  before_action :authenticate_user!, only: [:destroy]
+  protect_from_forgery with: :null_session, only: [:destroy]
 
   def create
     user = User.find_for_database_authentication(email: params[:email])
@@ -11,11 +13,16 @@ class Api::V1::AuthController < Api::V1::ApplicationController
     end
   end
 
+
   def destroy
     if current_user
+
+      current_user.update(jti: SecureRandom.uuid)
+
       render json: { message: 'Logged out successfully.' }, status: :ok
     else
       render json: { message: 'No active session.' }, status: :unauthorized
     end
   end
 end
+
