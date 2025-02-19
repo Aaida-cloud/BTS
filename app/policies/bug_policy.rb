@@ -8,7 +8,7 @@ class BugPolicy < ApplicationPolicy
   end
 
   def resolve?
-     user.developer? && record.started? && record.developer == user
+    user.developer? && record.started? && record.developer == user
   end
 
   def destroy?
