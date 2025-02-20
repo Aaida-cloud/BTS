@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
- skip_before_action :verify_authorized, only: [:index, :new, :create]
+ skip_before_action :verify_authorized, only: [:destroy, :new, :create]
 
   # before_action :configure_sign_in_params, only: [:create]
 
