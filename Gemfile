@@ -22,6 +22,10 @@ gem "bootstrap"
 gem "sassc-rails"
 gem "devise"
 gem "pg", "~> 1.5"
+gem 'pundit'
+gem 'byebug'
+gem 'devise-jwt'
+
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -60,3 +64,5 @@ group :test do
   gem "selenium-webdriver"
 end
 
+
+gem "kaminari", "~> 1.2"
