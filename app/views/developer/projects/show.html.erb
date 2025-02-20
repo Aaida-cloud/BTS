@@ -14,11 +14,7 @@
               <div class="d-flex justify-content-between">
                 <div>
                   <strong><%= bug.title %></strong> -
-                  <span class="badge p-2
-                              <%= 'bg-warning-subtle text-dark' if bug.new_bug? %>
-                              <%= 'bg-primary-subtle text-dark' if bug.started? %>
-                              <%= 'bg-success-subtle text-dark' if bug.resolved? %>
-                              font-weight-bold rounded-pill">
+                  <span class="badge p-2 <%= color_class(bug) %> font-weight-bold rounded-pill">
                     <%= bug.status.capitalize %>
                   </span>
                   <div>

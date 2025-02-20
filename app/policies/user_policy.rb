@@ -1,9 +1,9 @@
 class UserPolicy < ApplicationPolicy
-  def enable_disable?
+  def toggle_user?
     user.admin?
   end
 
-  def update_role?
+  def update_user_type?
     user.admin?
   end
 end

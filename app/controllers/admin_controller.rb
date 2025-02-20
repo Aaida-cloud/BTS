@@ -1,5 +1,6 @@
 class AdminController < ApplicationController
-  before_action :authorize_admin
+   before_action :authorize_admin, only: [:toggle_user, :update_user_type]
+
 
   def index
     @users = User.where.not(user_type: :admin)

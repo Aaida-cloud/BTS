@@ -20,12 +20,16 @@ class ProjectPolicy < ApplicationPolicy
     user.manager?
   end
 
-  def add_remove_users?
+  def remove_user?
+    user.manager?
+  end
+
+  def assign_users?
     user.manager?
   end
 
 
   class Scope < ApplicationPolicy::Scope
-    
+
   end
 end

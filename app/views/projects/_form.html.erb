@@ -1,5 +1,5 @@
 <%= form_with(model: @project, local: true) do |form| %>
-<%= render 'shared/error_messages', resource: @project %>
+<%= render 'devise/shared/error_messages', resource: @project %>
 
   <div class="form-group mb-3">
     <%= form.label :name, class: "text-primary" %>

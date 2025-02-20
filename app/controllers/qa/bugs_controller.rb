@@ -1,8 +1,9 @@
 module Qa
   class BugsController < ApplicationController
     before_action :authenticate_user!
-    before_action :authorize_qa
     before_action :set_project, only: [:new, :create]
+    before_action :authorize_qa_bug, only: [:create]
+
 
     def new
       @bug = @project.bugs.new
@@ -31,12 +32,6 @@ module Qa
 
     def bug_params
       params.require(:bug).permit(:title, :description, :bug_type, :status, :deadline, :screenshot)
-    end
-
-    def authorize_qa
-      unless current_user.qa?
-        redirect_to root_path, alert: "Access denied. Only QAs can access this page."
-      end
     end
   end
 end

@@ -1,8 +1,10 @@
 module Api
   module V1
     class ProjectsController < Api::V1::ApplicationController
-      before_action :authorize_manager, only: [:create, :update, :destroy]
+      before_action :set_user, only: [:assign_users, :remove_user]
       before_action :set_project, only: [:show, :update, :destroy, :assign_users, :remove_user]
+      before_action :authorize_api_project, only: [:index, :show]
+
 
       def index
         if current_user.manager?
@@ -39,8 +41,6 @@ module Api
       end
 
       def assign_users
-        user = User.find(params[:user_id])
-
         unless @project.users.include?(user)
           @project.users << user
           render json: { message: "#{user.name} has been added to the project." }, status: :ok
@@ -50,8 +50,6 @@ module Api
       end
 
       def remove_user
-        user = User.find(params[:user_id])
-
         if @project.users.include?(user)
           @project.users.delete(user)
           render json: { message: "#{user.name} has been removed from the project." }, status: :ok
@@ -71,9 +69,9 @@ module Api
       def project_params
         params.require(:project).permit(:name, :description, :deadline)
       end
-      
-      def authorize_manager
-        render json: { error: "Access denied. Only managers can access this." }, status: :forbidden unless current_user.manager?
+
+      def set_user
+        @user = User.find(params[:id])
       end
     end
   end

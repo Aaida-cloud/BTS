@@ -1,10 +1,11 @@
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :authorize_manager
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :assign_users ,:remove_user]
+  before_action :set_user, only: [:assign_users, :remove_user]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :assign_users, :remove_user]
+  before_action :authorize_manager, only: [:index, :create, :update, :destroy, :assign_users, :remove_user]
+
 
   def index
-    @projects = current_user.created_projects.includes(:bugs).page(params[:page]).per(5)
+    @projects = current_user.created_projects.includes(:bugs, :users).page(params[:page]).per(User::PER_PAGE)
   end
 
   def new
@@ -40,7 +41,6 @@ class ProjectsController < ApplicationController
   end
 
   def assign_users
-    @user = User.find(params[:user_id])
     unless @project.users.include?(@user)
       @project.users << @user
       redirect_to projects_path, notice: "#{@user.name} has been added to the project."
@@ -50,7 +50,6 @@ class ProjectsController < ApplicationController
   end
 
   def remove_user
-    @user = User.find(params[:user_id])
     if @project.users.include?(@user)
       @project.users.delete(@user)
       redirect_to projects_path, notice: "#{@user.name} has been removed from the project."
@@ -69,9 +68,7 @@ class ProjectsController < ApplicationController
     params.require(:project).permit(:name, :description, :deadline)
   end
 
-  def authorize_manager
-    unless current_user.manager?
-      redirect_to root_path, alert: "Access denied."
-    end
+  def set_user
+    @user = User.find(params[:id])
   end
 end

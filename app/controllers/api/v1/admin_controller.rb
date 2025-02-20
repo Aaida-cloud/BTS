@@ -1,6 +1,7 @@
 class Api::V1::AdminController < ApplicationController
-  before_action :authorize_admin
-  skip_before_action :verify_authenticity_token  
+  skip_before_action :verify_authenticity_token
+  before_action :authorize_api_admin, only: [:toggle_user, :update_user_type]
+
 
 
   def index
@@ -29,15 +30,11 @@ class Api::V1::AdminController < ApplicationController
       return render json: { error: "User not found" }, status: :not_found
     end
 
-    user.update(enabled: !user.enabled)
+    if user.update(enabled: !user.enabled)
     render json: { message: "User access updated", user: user }, status: :ok
-  end
-
-  private
-
-  def authorize_admin
-    unless current_user.admin?
-      render json: { error: "Access Denied!" }, status: :forbidden
+    else
+      render json: { error: "Failed to update user accesibility", details: user.errors.full_messages }, status: :unprocessable_entity
     end
+
   end
 end

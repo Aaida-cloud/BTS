@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
-  include Pundit
   before_action :authenticate_user!
+  include Pundit
+  include Authorizable
 
   def after_sign_in_path_for(resource)
     if resource.admin?

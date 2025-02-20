@@ -1,13 +1,14 @@
 require 'jwt'
 class User < ApplicationRecord
+  before_create :set_jti
+
   include AuthenticationConcern
   include Devise::JWT::RevocationStrategies::JTIMatcher
-  before_create :set_jti
 
   has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
   has_many :created_projects, class_name: 'Project', foreign_key: "manager_id"
-  has_many :bugs, foreign_key: :qa_id
+  has_many :bugs, foreign_key: :qa_id, dependent: :destroy
 
   enum user_type: { developer: 0, manager: 1, qa: 2, user: 3, admin: 4 }
 
@@ -17,6 +18,13 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, uniqueness: true
   validates :password, presence: true
+
+  PER_PAGE = 5
+  DEV_PROJECT_PER_PAGE = 5
+  BUG_PER_PAGE = 5
+  EXCLUDED_USER_TYPES = ['manager', 'admin']
+  IGNORED_USER_TYPE = ["admin"]
+
 
   def generate_jwt
     JWT.encode(

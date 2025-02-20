@@ -1,12 +1,12 @@
 module Developer
   class ProjectsController < ApplicationController
     before_action :authenticate_user!
-    before_action :authorize_developer
+    before_action :authorize_developer_project, only: [:index]
     before_action :set_project, only: [:show, :bug_details, :update_bug_status]
     before_action :set_bug, only: [:update_bug_status, :bug_details]
 
     def index
-      @projects = current_user.projects.page(params[:page]).per(5)
+      @projects = current_user.projects.page(params[:page]).per(User::DEV_PROJECT_PER_PAGE)
     end
 
     def show
@@ -35,12 +35,6 @@ module Developer
 
     def set_project
       @project = Project.find_by(id: params[:id])
-    end
-
-    def authorize_developer
-      unless current_user.developer?
-        redirect_to root_path, alert: "Access denied."
-      end
     end
   end
 end

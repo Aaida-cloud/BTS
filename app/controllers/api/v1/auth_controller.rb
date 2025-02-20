@@ -16,10 +16,8 @@ class Api::V1::AuthController < ApplicationController
 
   def destroy
     if current_user
-
-      current_user.update(jti: SecureRandom.uuid)
-
-      render json: { message: 'Logged out successfully.' }, status: :ok
+     current_user.update(jti: SecureRandom.uuid)
+    render json: { message: 'Logged out successfully.' }, status: :ok
     else
       render json: { message: 'No active session.' }, status: :unauthorized
     end

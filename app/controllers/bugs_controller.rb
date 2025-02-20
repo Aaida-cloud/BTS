@@ -1,8 +1,7 @@
 class BugsController < ApplicationController
-  include Pundit
-  before_action :authenticate_user!
   before_action :set_project
   before_action :set_bug
+
 
   def index
     @bugs = Bug.all.includes(:developer)
