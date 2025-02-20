@@ -6,7 +6,7 @@ module Qa
 
 
     def index
-      @projects = Project.all.page(params[:page]).per(User::PER_PAGE)
+      @projects = Project.includes(:bugs).page(params[:page]).per(User::PER_PAGE)
     end
 
     def show
